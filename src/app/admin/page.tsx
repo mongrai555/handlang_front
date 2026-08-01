@@ -61,9 +61,10 @@ export default function AdminPage() {
         return;
       }
 
-      setErrorMessage(data.message || "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+      const serverMsg = Array.isArray(data.message) ? data.message.join(', ') : data.message;
+      setErrorMessage(serverMsg || "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
     } catch (err: any) {
-      setErrorMessage("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+      setErrorMessage(err.message || "เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
     }
   };
 
