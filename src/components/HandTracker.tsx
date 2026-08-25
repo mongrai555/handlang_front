@@ -72,8 +72,19 @@ interface HandTrackerProps {
   }) => void;
 }
 
-const BACKEND_API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api/v1";
+const getFormattedApiUrl = (rawUrl?: string): string => {
+  let url = (rawUrl || "").trim();
+  if (!url) return "http://localhost:3001/api/v1";
+  url = url.replace(/\/+$/, "");
+  if (!url.endsWith("/api/v1")) {
+    url = `${url}/api/v1`;
+  }
+  return url;
+};
+
+const BACKEND_API_URL = getFormattedApiUrl(
+  process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND_URL
+);
 
 export default function HandTracker({
   isAdmin = false,
